@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Tag, Ingredient, Recipe
+from .models import Favorite, ShoppingCart, Tag, Ingredient, Recipe, RecipeIngredient
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -21,17 +21,34 @@ class IngredientAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
 
 
+class IngredientInLine(admin.TabularInline):
+    model = RecipeIngredient
+
+
 class RecipeAdmin(admin.ModelAdmin):
+    inlines = [
+        IngredientInLine,
+    ]
     list_display = (
-        'id',
         'name',
         'author',
-        # 'followers'
     )
     list_filter = ("name", "author", "tags")
+    empty_value_display = "-empty-"
+
+
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "recipe")
+    empty_value_display = "-empty-"
+
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "recipe")
     empty_value_display = "-empty-"
 
 
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(Favorite, FavoriteAdmin)
+admin.site.register(ShoppingCart, CartAdmin)

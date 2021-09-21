@@ -5,7 +5,7 @@ from .views import (
     TagViewSet,
     IngredientViewSet,
     RecipeViewSet,
-    FavoriteViewSet,
+    # FavoriteViewSet,
 )
 
 router = DefaultRouter()
@@ -23,13 +23,7 @@ router.register(
     basename="ingredients",
 )
 router.register(
-    r"recipes/(?P<recipe_id>\d+)/favorite",
-    FavoriteViewSet,
-    basename="favorite",
-)
-router.register(r"recipes", RecipeViewSet)
-router.register(
-    r"recipes/(?P<recipe_id>\d+)/",
+    r"recipes",
     RecipeViewSet,
     basename="recipes",
 )

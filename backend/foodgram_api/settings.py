@@ -106,7 +106,6 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': [
@@ -122,13 +121,14 @@ DJOSER = {
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-        'user_create': 'users.serializers.UserCreateSerializer',
+        'user_create': 'users.serializers.UserSerializer',
         'user': 'users.serializers.UserSerializer',
         'current_user': 'users.serializers.UserSerializer',
     },
     "PERMISSIONS": {
-        "user": ["rest_framework.permissions.IsAuthenticated"],
+        "user": ["users.permissions.AuthenticatedReadOnly"],
         "user_list": ["rest_framework.permissions.AllowAny"],
+        "user_delete": ["rest_framework.permissions.IsAdminUser"],
     },
     'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,
