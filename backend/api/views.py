@@ -1,8 +1,11 @@
+from django_filters import rest_framework as filters
 from rest_framework import permissions, viewsets, status
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
+from rest_framework.response import Response
 
-from .permissions import IsAdminOrReadOnly
+from .filters import RecipeFilter, IngredientFilter
+from .permissions import ReadOnly, AuthorOrReadOnly
 from .models import ShoppingCart, Tag, Ingredient, Recipe, Favorite
 from .serializers import (
     ShoppingCartSerializer,
@@ -11,27 +14,30 @@ from .serializers import (
     RecipeSerializer,
     FavoriteSerializer,
 )
-from rest_framework.response import Response
-import pdb
 
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = None
-    permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (ReadOnly, )
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     pagination_class = None
-    permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (ReadOnly, )
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = IngredientFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = RecipeFilter
+    permission_classes = (AuthorOrReadOnly, )
 
     def perform_create(self, serializer):
         serializer.save(
@@ -39,7 +45,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
         return serializer
 
-    @action(methods=['get', 'delete'], detail=True, permission_classes=(permissions.IsAuthenticated, ))
+    @action(
+        methods=['get', 'delete'],
+        detail=True,
+        permission_classes=(permissions.IsAuthenticated, )
+    )
     def favorite(self, request, pk=None):
         user = request.user
         recipe = get_object_or_404(Recipe, pk=pk)
@@ -57,7 +67,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer = FavoriteSerializer(
                 favorite, context={'request': request}
             )
-            # pdb.set_trace ()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         favorite = Favorite.objects.filter(
@@ -72,7 +81,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'errors': 'Рецепт не находится в избранном'
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(methods=['get', 'delete'], detail=True, permission_classes=(permissions.IsAuthenticated, ))
+    @action(
+        methods=['get', 'delete'],
+        detail=True,
+        permission_classes=(permissions.IsAuthenticated, )
+    )
     def shopping_cart(self, request, pk=None):
         user = request.user
         recipe = get_object_or_404(Recipe, pk=pk)
@@ -85,7 +98,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     'errors': ('Рецепт уже добавлен в список покупок')
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-            shopping_cart = ShoppingCart.objects.create(user=user, recipe=recipe)
+            shopping_cart = ShoppingCart.objects.create(
+                user=user, recipe=recipe)
             shopping_cart.save()
             serializer = ShoppingCartSerializer(
                 shopping_cart, context={'request': request}

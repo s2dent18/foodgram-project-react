@@ -1,8 +1,14 @@
 from django.contrib import admin
 
-from .models import Favorite, ShoppingCart, Tag, Ingredient, Recipe, RecipeIngredient
+from .models import (
+    Favorite, ShoppingCart, Tag, Ingredient, Recipe, RecipeIngredient)
 
 
+class IngredientInLine(admin.TabularInline):
+    model = RecipeIngredient
+
+
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = (
         'name',
@@ -11,6 +17,7 @@ class TagAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
 
 
+@admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -21,10 +28,7 @@ class IngredientAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
 
 
-class IngredientInLine(admin.TabularInline):
-    model = RecipeIngredient
-
-
+@admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     inlines = [
         IngredientInLine,
@@ -33,22 +37,17 @@ class RecipeAdmin(admin.ModelAdmin):
         'name',
         'author',
     )
-    list_filter = ("name", "author", "tags")
-    empty_value_display = "-empty-"
+    list_filter = ('name', 'author', 'tags')
+    empty_value_display = '-empty-'
 
 
+@admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "recipe")
-    empty_value_display = "-empty-"
+    list_display = ('id', 'user', 'recipe')
+    empty_value_display = '-empty-'
 
 
+@admin.register(ShoppingCart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "recipe")
-    empty_value_display = "-empty-"
-
-
-admin.site.register(Tag, TagAdmin)
-admin.site.register(Ingredient, IngredientAdmin)
-admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Favorite, FavoriteAdmin)
-admin.site.register(ShoppingCart, CartAdmin)
+    list_display = ('id', 'user', 'recipe')
+    empty_value_display = '-empty-'

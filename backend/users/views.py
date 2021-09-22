@@ -7,7 +7,6 @@ from rest_framework.response import Response
 
 from .serializers import FollowSerializer, UserSerializer
 from .models import Follow
-import pdb
 
 User = get_user_model()
 
@@ -15,7 +14,11 @@ User = get_user_model()
 class CustomUserViewSet(UserViewSet):
     serializer_class = UserSerializer
 
-    @action(methods=['get', 'delete'], detail=True, permission_classes=(permissions.IsAuthenticated, ))
+    @action(
+        methods=['get', 'delete'],
+        detail=True,
+        permission_classes=(permissions.IsAuthenticated, )
+    )
     def subscribe(self, request, id=None):
         user = request.user
         author = get_object_or_404(User, id=id)
@@ -35,7 +38,6 @@ class CustomUserViewSet(UserViewSet):
                 subscribe,
                 context={'request': request}
             )
-            # pdb.set_trace ()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         subscribe = Follow.objects.filter(
