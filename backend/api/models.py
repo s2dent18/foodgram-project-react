@@ -113,13 +113,14 @@ class RecipeIngredient(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
-        validators=[MinValueValidator(1, 'Количество не может быть меньше 1')],
+        validators=[MinValueValidator(
+            1, 'Количество ингредиента не может быть меньше 1')],
         default=1,
     )
 
     class Meta:
-        verbose_name = 'Количество ингредиента в рецепте'
-        verbose_name_plural = 'Количество ингредиента в рецепте'
+        verbose_name = 'Ингредиент в рецепте'
+        verbose_name_plural = 'Ингредиенты в рецепте'
 
     def __str__(self):
         return f'Количество {self.ingredient} в рецепте {self.recipe}'

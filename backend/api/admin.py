@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import (
-    Favorite, ShoppingCart, Tag, Ingredient, Recipe, RecipeIngredient)
+from .models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingCart, Tag)
 
 
 class IngredientInLine(admin.TabularInline):
@@ -20,12 +20,12 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
         'name',
         'measurement_unit',
     )
-    list_filter = ('name',)
+    list_filter = ('name', )
     empty_value_display = '-empty-'
+    search_fields = ('name', )
 
 
 @admin.register(Recipe)
@@ -36,18 +36,34 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'author',
+        'favorite_count',
     )
-    list_filter = ('name', 'author', 'tags')
+    list_filter = (
+        'name',
+        'author',
+        'tags'
+    )
     empty_value_display = '-empty-'
+
+    def favorite_count(self, obj):
+        return obj.favorited_by.all().count()
 
 
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'recipe')
+    list_display = (
+        'id',
+        'user',
+        'recipe'
+    )
     empty_value_display = '-empty-'
 
 
 @admin.register(ShoppingCart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'recipe')
+    list_display = (
+        'id',
+        'user',
+        'recipe'
+    )
     empty_value_display = '-empty-'

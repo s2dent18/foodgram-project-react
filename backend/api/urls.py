@@ -1,33 +1,29 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (
-    TagViewSet,
-    IngredientViewSet,
-    RecipeViewSet,
-)
+from .views import IngredientViewSet, RecipeViewSet, TagViewSet
 
-router = DefaultRouter()
+api_router = DefaultRouter()
 
-router.register(r"tags", TagViewSet)
-router.register(
-    r"tags/(?P<tag_id>\d+)/",
+api_router.register(r'tags', TagViewSet)
+api_router.register(
+    r'tags/(?P<tag_id>\d+)/',
     TagViewSet,
-    basename="tags",
+    basename='tags',
 )
-router.register(r"ingredients", IngredientViewSet)
-router.register(
-    r"ingredients/(?P<ingredient_id>\d+)/",
+api_router.register(r'ingredients', IngredientViewSet)
+api_router.register(
+    r'ingredients/(?P<ingredient_id>\d+)/',
     IngredientViewSet,
-    basename="ingredients",
+    basename='ingredients',
 )
-router.register(
-    r"recipes",
+api_router.register(
+    r'recipes',
     RecipeViewSet,
-    basename="recipes",
+    basename='recipes',
 )
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(api_router.urls)),
 ]
