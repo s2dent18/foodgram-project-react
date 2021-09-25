@@ -128,9 +128,9 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
             ingredient_amount.save()
 
-        # instance.is_favorited = instance.is_favorited
-        # instance.is_in_shopping_cart = instance.is_in_shopping_cart
-        # instance.save()
+        instance.is_favorited = False
+        instance.is_in_shopping_cart = False
+        instance.save()
         return instance
 
 
