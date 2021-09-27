@@ -47,7 +47,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         serializer.save(
             author=self.request.user
         )
-        return serializer
 
     @action(
         methods=['get', 'delete'],
@@ -67,7 +66,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             favorite = Favorite.objects.create(user=user, recipe=recipe)
-            favorite.save()
             serializer = FavoriteSerializer(
                 favorite, context={'request': request}
             )
@@ -104,7 +102,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
             shopping_cart = ShoppingCart.objects.create(
                 user=user, recipe=recipe)
-            shopping_cart.save()
             serializer = ShoppingCartSerializer(
                 shopping_cart, context={'request': request}
             )
@@ -130,14 +127,18 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def download_shopping_cart(self, request):
         user = request.user
         ingredients = RecipeIngredient.objects.filter(
-            recipe__put_by__user=user
-        )
+            recipe__put_by__user=user).values_list(
+                'ingredient__name',
+                'amount',
+                'ingredient__measurement_unit'
+            )
         shopping_list = {}
 
         for ingredient in ingredients:
-            name = ingredient.ingredient.name
-            measurement_unit = ingredient.ingredient.measurement_unit
-            amount = ingredient.amount
+            name = ingredient[0]
+            amount = ingredient[1]
+            measurement_unit = ingredient[2]
+
             if name not in shopping_list:
                 shopping_list[name] = {
                     'measurement_unit': measurement_unit,

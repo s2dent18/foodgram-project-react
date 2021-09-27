@@ -1,4 +1,3 @@
-from api.paginations import LimitPagination
 from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
 from rest_framework import permissions, status
@@ -6,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
+from api.paginations import LimitPagination
 from .models import Follow
 from .serializers import FollowSerializer, UserSerializer
 
@@ -35,7 +35,6 @@ class CustomUserViewSet(UserViewSet):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             subscribe = Follow.objects.create(user=user, author=author)
-            subscribe.save()
             serializer = FollowSerializer(
                 subscribe,
                 context={'request': request}
