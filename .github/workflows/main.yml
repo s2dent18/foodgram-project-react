@@ -62,6 +62,7 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
           sudo docker pull s2dent18/foodgram-backend:latest
+          sudo docker pull s2dent18/foodgram-frontend:v1.0
           sudo docker-compose stop
           sudo docker-compose rm backend
           touch .env 
