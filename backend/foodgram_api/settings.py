@@ -5,9 +5,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('SERVERNAMES', default='*').split()
 
 
 INSTALLED_APPS = [
@@ -57,12 +57,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'foodgram_api.wsgi.application'
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -102,18 +96,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -133,10 +127,10 @@ DJOSER = {
         'user': 'users.serializers.UserSerializer',
         'current_user': 'users.serializers.UserSerializer',
     },
-    "PERMISSIONS": {
-        "user": ["users.permissions.AuthenticatedReadOnly"],
-        "user_list": ["rest_framework.permissions.AllowAny"],
-        "user_delete": ["rest_framework.permissions.IsAdminUser"],
+    'PERMISSIONS': {
+        'user': ['users.permissions.AuthenticatedReadOnly'],
+        'user_list': ['rest_framework.permissions.AllowAny'],
+        'user_delete': ['rest_framework.permissions.IsAdminUser'],
     },
     'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,

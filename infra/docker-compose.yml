@@ -3,16 +3,16 @@ services:
 
   db:
     image: postgres:12.4
+    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ../backend/.env
 
   backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
-    volumes:
+    image: s2dent18/foodgram-backend:latest
+    restart: always
+    volumes: 
       - static_value:/code/static/
       - media_value:/code/media/
     depends_on:
@@ -21,9 +21,7 @@ services:
       - ../backend/.env
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: s2dent18/foodgram-frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
