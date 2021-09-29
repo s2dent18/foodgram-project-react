@@ -130,8 +130,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             recipe__put_by__user=user).values_list(
                 'ingredient__name',
                 'amount',
-                'ingredient__measurement_unit'
-            )
+                'ingredient__measurement_unit')
         shopping_list = {}
 
         for ingredient in ingredients:
@@ -174,7 +173,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         page.line(50, height, 550, height)
         page.setFillColor(colors.red)
         page.setFont('FreeSans', size=12)
-        page.drawString(450, height-25, '(с) Foodgram')
+        page.drawString(450, height - 25, '(с) Foodgram')
         page.showPage()
         page.save()
         ShoppingCart.objects.filter(user=user).delete()
