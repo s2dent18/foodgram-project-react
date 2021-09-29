@@ -60,7 +60,6 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
-        stack_file_name: docker-compose.yaml
         script: |
           sudo docker pull s2dent18/foodgram-backend:latest
           sudo docker-compose stop
