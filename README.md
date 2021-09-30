@@ -139,6 +139,7 @@ docker-compose exec backend python manage.py createsuperuser
 ## Ревью:
 
 Проект доступен по адресу: http://62.84.115.215/  
+Ссылка на админку: http://62.84.115.215/admin/  
 Данные для входа в админку:
 * reviewadmin@gmail.com  
 * h49fgh59d7fh4  
