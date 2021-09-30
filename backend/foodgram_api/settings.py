@@ -5,11 +5,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
-# ALLOWED_HOSTS = os.environ.get('SERVERNAMES', default='*').split()
-ALLOWED_HOSTS = ['*', ]
-
+ALLOWED_HOSTS = os.environ.get('SERVERNAMES', default='*').split()
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
@@ -57,7 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram_api.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -68,7 +65,6 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
