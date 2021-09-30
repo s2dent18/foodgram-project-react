@@ -85,7 +85,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         ingredients = self.initial_data.get('ingredients')
         not_unique_ingredients = []
         for ingredient in ingredients:
-            if abs(ingredient['amount']) != ingredient['amount']:
+            if abs(int(ingredient['amount'])) != int(ingredient['amount']):
                 raise serializers.ValidationError(
                     'Количество не может быть отрицательным'
                 )
