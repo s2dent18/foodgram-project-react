@@ -104,6 +104,13 @@ sudo docker-compose exec backend python manage.py migrate --noinput
 ```sh
 sudo docker-compose exec backend python manage.py collectstatic --noinput
 ```    
+## Загрузка готовой базы ингредиентов:
+
+Готовый файл лежит в папке backend/  
+Выполните команду:  
+```sh
+docker-compose exec backend python manage.py loaddata ingredients.json
+```
 
 ## Администрирование:
 
