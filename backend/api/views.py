@@ -171,6 +171,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             height -= 25
             if height == 50:
                 page.showPage()
+                page.setFont('FreeSans', size=16)
                 height = 800
 
         page.line(50, height, 550, height)
