@@ -169,6 +169,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
                  f'{data["measurement_unit"]}')
             )
             height -= 25
+            if height == 50:
+                page.showPage()
+                height = 800
 
         page.line(50, height, 550, height)
         page.setFillColor(colors.red)
