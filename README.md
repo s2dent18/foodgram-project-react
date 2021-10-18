@@ -15,6 +15,8 @@
 git clone https://github.com/s2dent18/foodgram-project-react.git
 ```
 
+![Foodgram](head.jpg)
+
 ## Описание сервиса:
 
 Foodgram - сервис для публикации и обмена рецептами блюд и напитков.  
