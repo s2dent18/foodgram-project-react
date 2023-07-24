@@ -137,7 +137,3 @@ docker-compose exec backend python manage.py createsuperuser
 
 [Backend](https://hub.docker.com/repository/docker/s2dent18/foodgram-backend)  
 [Frontend](https://hub.docker.com/repository/docker/s2dent18/foodgram-frontend)  
-
-## Пример готового проекта:
-
-Проект доступен по адресу: http://62.84.115.215/  
